@@ -79,9 +79,19 @@ class BeamHypotheses(object):
             ret = self.worst_score >= cur_score
             return ret
 
-def beam_search(prompt, api_key, endpoint_url, end_token='<|endoftext|>', weights=[.5,.5], keyword='latino', use_class=True, num_beams=10, vocab_size=100, max_length=5, temperature=.9, length_penalty=1,classifier_dir="./HateBERT_offenseval",device="cuda"):
-    """ Generate sequences for each example with beam search.
-    """
+def beam_search(prompt,
+                end_token='<|endoftext|>',
+                weights=[.5,.5],
+                keyword='latino',
+                use_class=True,
+                num_beams=10,
+                vocab_size=100,
+                max_length=5,
+                temperature=.9,
+                length_penalty=1,
+                classifier_dir="./HateBERT_offenseval",
+                device="cuda"):
+    """Generate sequences for each example with beam search."""
     pad_token_id = '<|pad|>'
     eos_token_ids = [end_token]
     # generated hypotheses
@@ -107,7 +117,8 @@ def beam_search(prompt, api_key, endpoint_url, end_token='<|endoftext|>', weight
     input_ids = [prompt] * num_beams
     outputs = {}
     while 'choices' not in outputs.keys():
-           outputs = query_gpt3([prompt],api_key, endpoint_url, end_token, num_responses=1,topk=num_beams)
+           outputs = language_model([prompt], stop=end_token, num_responses=1, topk=num_beams)
+           #outputs = query_gpt3([prompt],api_key, endpoint_url, end_token, num_responses=1,topk=num_beams)
     outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
     tokens = list(outputs.keys())
     tokens = [(k,outputs[k]) for k in tokens]

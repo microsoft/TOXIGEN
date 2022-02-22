@@ -18,7 +18,7 @@ This repository includes **two methods for generating new sentences with languag
 To pass our prompts into GPT-3 and generate new sentences, run this command:
 
 ```
-python generate.py --input_prompt_file path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --openai_api_key <your_api_key>
+python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --openai_api_key <your_api_key>
 ```
 
 You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
