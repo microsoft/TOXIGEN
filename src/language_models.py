@@ -3,20 +3,17 @@ import subprocess
 import json
 from src.alice_decoding import beam_search
 from transformers import (
-    GPT2LMHeadModel,
-    AutoTokenizer
+    AutoTokenizer,
+    AutoModelWithLMHead,
 )
-from transformers import pipeline
 
 class GPT3(object):
-    def __init__(self, apikey):
-        self.apikey = apikey
+    def __init__(self, endpoint_url, api_key):
+        self.api_key = api_key
+        self.endpoint_url = endpoint_url
 
     def __call__(self, prompt, stop="<|endoftext|>", num_responses=10, topk=1):
-        endpoint_url = "https://api.openai.com/v1/engines/davinci-msft/completions"
-        #endpoint_url = "https://gpt3-babel.eastus.inference.ml.azure.com/v1/engines/davinci/completions"
         prompt = prompt.replace("'", "").replace('"', "")
-        #prompt = [p.replace('"', "").replace("'", "") for p in prompt]
         parameters = {
             "prompt": prompt,
             "max_tokens": 30,
@@ -26,37 +23,37 @@ class GPT3(object):
             "logprobs": topk,
             "stop": stop,
         }
-        s = f"""curl {endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {apikey}" -d '{json.dumps(parameters)}'"""
+        s = f"""curl {self.endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {self.api_key}" -d '{json.dumps(parameters)}'"""
         output = subprocess.check_output(s, shell=True)
         output = json.loads(output)
         return output
 
 class GPT2(object):
     def __init__(self):
-        self.model = GPT2LMHeadModel.from_pretrained('gpt2')
+        self.model = AutoModelWithLMHead.from_pretrained('gpt2')
         self.tokenizer = AutoTokenizer.from_pretrained('gpt2')
-        self.tokenizer.eos_token = "\n"
 
-    def __call__(self, prompt, stop="\n", num_responses=10, topk=1):
+    def __call__(self, prompt, stop="\\n", num_responses=10, topk=1):
         input_ids = self.tokenizer(prompt, return_tensors="pt")["input_ids"]
         sample_output = self.model.generate(
                 input_ids, 
                 do_sample=True, 
                 max_length=200, 
                 top_k=50,
+                eos_token_id=int(self.tokenizer(stop)["input_ids"][0])
         )
         sample_output = sample_output[0][input_ids.shape[1]:]
         return self.tokenizer.decode(sample_output)
 
 class ALICE(object):
-    def __init__(self, language_model, classifier):#, apikey):
+    def __init__(self, language_model, classifier):
         self.classifier = classifier
         self.language_model = language_model
 
-    def __call__(self, prompt):
-        return self.generate(prompt)
+    def __call__(self, prompt, group):
+        return self.generate(prompt, group)
 
-    def generate(self, prompt, group, device):
-        sentence = beam_search(language_model, prompt, keyword=group, classifier_dir=self.classifier, device=device)
+    def generate(self, prompt, group):
+        sentence = beam_search(prompt, language_model, classifier, keyword=group)
         return sentence
 

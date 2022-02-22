@@ -6,6 +6,8 @@ from transformers import (
     RobertaConfig,
     RobertaForSequenceClassification,
     RobertaTokenizer,
+    AutoTokenizer,
+    AutoModelForSequenceClassification,
 )
 import random
 
@@ -23,22 +25,15 @@ class HateSpeechClassifier(torch.nn.Module):
             outputs = logits.detach()
         return outputs
 
-class HateBERT(torch.nn.Module):
-    """
-    This is the model we trained on gpt3-generated data.
-    Example
-    -------
-    >>> model = HateBERT(path_to_folder_containing_weights)
-    >>> hate_probabilities = model(["sentence 1", "sentence 2"])
-    """
+class HateBERT(HateSpeechClassifier):
     def __init__(self, model_path, fname=None):
         super(HateBERT, self).__init__()
-        self.model = BertForSequenceClassification.from_pretrained(os.path.join(model_path, "pytorch_model.bin"), config=os.path.join(model_path, "config.json"))
-        self.tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased", config=os.path.join(model_path, "tokenizer_config.json"))
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_path).eval()
 
-class ToxDectRoBERTa(torch.nn.Module):
+class ToxDectRoBERTa(HateSpeechClassifier):
     def __init__(self):
         super(ToxDectRoBERTa, self).__init__()
-        config = RobertaConfig.from_pretrained('Xuhui/ToxDect-roberta-large')
-        self.tokenizer = RobertaTokenizer.from_pretrained('Xuhui/ToxDect-roberta-large')
-        self.model = RobertaForSequenceClassification.from_pretrained('Xuhui/ToxDect-roberta-large', config=config)
+        #config = RobertaConfig.from_pretrained('Xuhui/ToxDect-roberta-large')
+        self.tokenizer = AutoTokenizer.from_pretrained('Xuhui/ToxDect-roberta-large')
+        self.model = AutoModelForSequenceClassification.from_pretrained('Xuhui/ToxDect-roberta-large').eval() #, config=config).eval()
