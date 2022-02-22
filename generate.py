@@ -9,9 +9,9 @@ def main():
     parser.add_argument("--language_model", type=str)
     parser.add_argument("--output_file", type=str)
     parser.add_argument("--num_generations_per_prompt", type=int)
-    parser.add_argument("--openai_api_key", type=int)
+    parser.add_argument("--openai_api_key", type=str)
     parser.add_argument("--classifier", type=str)
-    parser.add_argument("--ALICE", type=bool)
+    parser.add_argument("--ALICE", default=False, type=bool)
 
     args = parser.parse_args()
 
@@ -43,8 +43,10 @@ def main():
     for prompt in prompts:
         for i in range(args.num_generations_per_prompt):
             response = language_model(prompt)
+            print(response)
             with open(args.output_file, "a") as f:
                 f.write(response)
+            assert 2 == 3
 
 if __name__ == "__main__":
     main()
