@@ -1,6 +1,6 @@
 import torch
-from language_models import GPT3, GPT2, ALICE
-from pretrained_classifiers import HateBERT, RoBERTa
+from src.language_models import GPT3, GPT2, ALICE
+from src.pretrained_classifiers import HateBERT, ToxDectRoBERTa
 import argparse
 
 def main():
@@ -22,7 +22,7 @@ def main():
     if args.language_model == "GPT3":
         language_model = GPT3(apikey=args.openai_api_key)
     elif args.language_model == "GPT2":
-        language_model = GPT2() # Make API key an arg
+        language_model = GPT2()
     else:
         raise ValueError
 
@@ -30,13 +30,13 @@ def main():
         # --- initialize pretrained toxicity classifier ---
         if args.classifier == "HateBERT":
             classifier = HateBERT("<path_to_hatebert_files>")
-        elif args.classifier == "RoBERTa":
-            classifier = RoBERTa()
+        elif args.classifier == "ToxDectRoBERTa":
+            classifier = ToxDectRoBERTa()
         else:
             raise NotImplementedError
 
         # --- wrap language model and toxicity detector in ALICE ---
-        language_model = ALICE(classifier,apikey=args.openai_api_key)
+        language_model = ALICE(classifier, apikey=args.openai_api_key)
 
 
     # --- loop through prompts and generate responses ---

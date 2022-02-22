@@ -36,9 +36,9 @@ class HateBERT(torch.nn.Module):
         self.model = BertForSequenceClassification.from_pretrained(os.path.join(model_path, "pytorch_model.bin"), config=os.path.join(model_path, "config.json"))
         self.tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased", config=os.path.join(model_path, "tokenizer_config.json"))
 
-class ToxDectRoberta(torch.nn.Module):
+class ToxDectRoBERTa(torch.nn.Module):
     def __init__(self):
-        super(ToxDectRoberta, self).__init__()
+        super(ToxDectRoBERTa, self).__init__()
         config = RobertaConfig.from_pretrained('Xuhui/ToxDect-roberta-large')
         self.tokenizer = RobertaTokenizer.from_pretrained('Xuhui/ToxDect-roberta-large')
         self.model = RobertaForSequenceClassification.from_pretrained('Xuhui/ToxDect-roberta-large', config=config)

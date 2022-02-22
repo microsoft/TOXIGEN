@@ -1,7 +1,7 @@
 import torch
 import subprocess
 import json
-from alice_decoding import beam_search
+from src.alice_decoding import beam_search
 
 class GPT3(object):
     def __init__(self, apikey):
