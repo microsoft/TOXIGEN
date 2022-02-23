@@ -1,6 +1,6 @@
 # TOXIGEN: Controlling Language Models to Generate Implicit and Adversarial Toxicity
 
-This repository is the official repository for [ToxiGen: Controlling Language Models to Generate Implicit and Adversarial Toxicity](https://arxiv.org/abs/2030.12345). 
+This is the official repository for [ToxiGen: Controlling Language Models to Generate Implicit and Adversarial Toxicity](https://arxiv.org/abs/2030.12345). 
 ToxiGen is a massive dataset containing **implicitly** toxic and benign sentences mentioning minority groups. Classifiers trained on ToxiGen learn to detect notoriously-hard, subtle toxicity that includes no slurs or profanity.
 
 The ToxiGen dataset is generated using large language models, and we also provide code for generating more data using your own language model.
@@ -33,7 +33,7 @@ python generate.py --input_prompts <path_to_prompt_file.txt> --language_model GP
 
 ## Writing your own demonstrations
 
-A boon of our method is that if you want to generate new text for a new group, you just need to write some new examples of the sorts of text you want to generate! In [demonstrations](./demonstrations/) directory, you can find the demonstrations we used to generate ToxiGen, which may guide you in writing your own. Notice that the demonstration files are one sentence per line, and each targets the same group within each file. Once you've written some demonstrations and want to turn them into prompts, you can run this command:
+A boon of our method is that if you want to generate new text for a new group, you just need to write some new examples of the sorts of text you want to generate! In the [demonstrations](./demonstrations/) directory, you can find the demonstrations we used to generate ToxiGen, which may guide you in writing your own. Notice that the demonstration files are one sentence per line, and each targets the same group within each file. Once you've written some demonstrations and want to turn them into prompts, you can run this command:
 
 ```
 python make_prompts.py --input_demonstrations <path_to_demo_file.txt> --output-file <path_to_prompt.txt> --demonstrations_per_prompt 5 --num_prompt_to_generate 100

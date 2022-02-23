@@ -31,7 +31,7 @@ def main():
         # --- initialize pretrained toxicity classifier ---
         if args.classifier == "HateBERT":
             classifier = HateBERT("<path_to_hatebert_files>")
-        elif args.classifier == "ToxDectRoBERTa":
+        elif args.classifier == "RoBERTa":
             classifier = ToxDectRoBERTa()
         else:
             raise NotImplementedError
