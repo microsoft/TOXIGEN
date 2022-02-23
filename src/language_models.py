@@ -5,6 +5,7 @@ from src.alice_decoding import beam_search
 from transformers import (
     AutoTokenizer,
     AutoModelWithLMHead,
+    #AutoModel,
 )
 
 class GPT3(object):
@@ -50,10 +51,8 @@ class ALICE(object):
         self.classifier = classifier
         self.language_model = language_model
 
-    def __call__(self, prompt, group):
-        return self.generate(prompt, group)
+    def __call__(self, prompt):#, group):
+        return self.generate(prompt)#, group)
 
-    def generate(self, prompt, group):
-        sentence = beam_search(prompt, language_model, classifier, keyword=group)
-        return sentence
-
+    def generate(self, prompt):#, group):
+        return beam_search(prompt, self.language_model, self.classifier)#, keyword=group)
