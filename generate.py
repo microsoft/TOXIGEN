@@ -9,9 +9,10 @@ def main():
     parser.add_argument("--language_model", type=str)
     parser.add_argument("--output_file", type=str)
     parser.add_argument("--num_generations_per_prompt", type=int)
-    parser.add_argument("--openai_api_key", type=int)
+    parser.add_argument("--endpoint_url", type=str)
+    parser.add_argument("--api_key", type=str)
     parser.add_argument("--classifier", type=str)
-    parser.add_argument("--ALICE", type=bool)
+    parser.add_argument("--ALICE", default=False, type=bool)
 
     args = parser.parse_args()
 
@@ -20,7 +21,7 @@ def main():
 
     # --- initialize language model ---
     if args.language_model == "GPT3":
-        language_model = GPT3(apikey=args.openai_api_key)
+        language_model = GPT3(endpoint_url=args.endpoint_url, apikey=args.api_key)
     elif args.language_model == "GPT2":
         language_model = GPT2()
     else:
@@ -30,21 +31,22 @@ def main():
         # --- initialize pretrained toxicity classifier ---
         if args.classifier == "HateBERT":
             classifier = HateBERT("<path_to_hatebert_files>")
-        elif args.classifier == "ToxDectRoBERTa":
+        elif args.classifier == "RoBERTa":
             classifier = ToxDectRoBERTa()
         else:
             raise NotImplementedError
 
         # --- wrap language model and toxicity detector in ALICE ---
-        language_model = ALICE(classifier, apikey=args.openai_api_key)
-
+        language_model = ALICE(language_model, classifier)
 
     # --- loop through prompts and generate responses ---
     for prompt in prompts:
         for i in range(args.num_generations_per_prompt):
             response = language_model(prompt)
+            print(response)
             with open(args.output_file, "a") as f:
-                f.write(response)
+                f.write(response + "\n")
+            assert 2 == 3
 
 if __name__ == "__main__":
     main()
