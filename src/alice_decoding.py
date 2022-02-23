@@ -79,9 +79,19 @@ class BeamHypotheses(object):
             ret = self.worst_score >= cur_score
             return ret
 
-def beam_search(prompt, api_key, endpoint_url, end_token='<|endoftext|>', weights=[.5,.5], keyword='latino', use_class=True, num_beams=10, vocab_size=100, max_length=5, temperature=.9, length_penalty=1,classifier_dir="./HateBERT_offenseval",device="cuda"):
-    """ Generate sequences for each example with beam search.
-    """
+def beam_search(prompt,
+                language_model,
+                classifier,
+                end_token='<|endoftext|>',
+                weights=[.5, .5],
+                keyword='latino',
+                use_class=True,
+                num_beams=10,
+                vocab_size=100,
+                max_length=5,
+                temperature=.9,
+                length_penalty=1):
+    """Generate sequences for each example with beam search."""
     pad_token_id = '<|pad|>'
     eos_token_ids = [end_token]
     # generated hypotheses
@@ -107,23 +117,20 @@ def beam_search(prompt, api_key, endpoint_url, end_token='<|endoftext|>', weight
     input_ids = [prompt] * num_beams
     outputs = {}
     while 'choices' not in outputs.keys():
-           outputs = query_gpt3([prompt],api_key, endpoint_url, end_token, num_responses=1,topk=num_beams)
+           outputs = language_model(prompt, stop=end_token, num_responses=1, topk=num_beams)
     outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
     tokens = list(outputs.keys())
     tokens = [(k,outputs[k]) for k in tokens]
     for i in range(len(tokens)):
         beam_scores[i] = tokens[i][1]
         input_ids[i] += tokens[i][0]
-    if use_class:
-       tokenizer = AutoTokenizer.from_pretrained(classifier_dir)
-       hatebert = AutoModelForSequenceClassification.from_pretrained(classifier_dir)
-       hatebert.eval()
-       hatebert.to(device)
+
     while step < max_length:
         outputs = {}
         while 'choices' not in outputs.keys():
               try:
-                  outputs = query_gpt3(input_ids, api_key, endpoint_url, end_token, num_responses=1,topk=vocab_size)
+                  outputs = language_model(input_ids, end_token, num_responses=1, topk=vocab_size)
+                  #outputs = query_gpt3(input_ids, api_key, endpoint_url, end_token, num_responses=1,topk=vocab_size)
               except:
                   continue
         scores = [outputs['choices'][i]['logprobs']['top_logprobs'] for i in range(num_beams)]
@@ -139,12 +146,13 @@ def beam_search(prompt, api_key, endpoint_url, end_token='<|endoftext|>', weight
         next_scores, next_tokens = torch.topk(next_scores, 2 * num_beams, dim=1, largest=True, sorted=True)
         next_tokens_names = [full_names[int(next_tokens[0][i])] for i in range(len(next_tokens[0]))]
         assert next_scores.size()[-1] == len(next_tokens_names) == 2 * num_beams
-        if use_class == True:
-           bert_inputs = [tokenizer.encode(' '.join(input_ids[t // vocab_size ].split(' ')[start_index:]) + full_names[t]) for t in next_tokens[0]]
-           pad_len = max([len(t) for t in bert_inputs])
-           bert_inputs = torch.LongTensor([b + [0] * (pad_len - len(b)) for b in bert_inputs])
-           logits = torch.nn.functional.log_softmax(hatebert(bert_inputs.to(device)).logits)[:,1].cpu()
-           next_scores = (next_scores * weights[0]) + (logits * weights[1])
+        #if use_class == True:
+        # Let's assume use_class == True if they're using this file! There's easier ways to just use top-k
+        classifier_inputs = [tokenizer.encode(' '.join(input_ids[t // vocab_size ].split(' ')[start_index:]) + full_names[t]) for t in next_tokens[0]]
+        pad_len = max([len(t) for t in classifier_inputs])
+        classifier_inputs = torch.LongTensor([b + [0] * (pad_len - len(b)) for b in classifier_inputs])
+        logits = torch.nn.functional.log_softmax(classifier(classifier_inputs.to(device)).logits)[:,1].cpu()
+        next_scores = (next_scores * weights[0]) + (logits * weights[1])
 
         # next batch beam content
         # list of (batch_size * num_beams) tuple(next hypothesis score, next word, current position in the batch)
@@ -242,19 +250,3 @@ def beam_search(prompt, api_key, endpoint_url, end_token='<|endoftext|>', weight
     for i, hypotheses in enumerate(generated_hyps):
         best_all.append(sorted(hypotheses.beams, key=lambda x: x[0],reverse=True))
     return [p[-1] for p in best_all[0]]
-
-def query_gpt3(prompt, apikey, endpoint_url="https://gpt3-babel.eastus.inference.ml.azure.com/v1/engines/davinci/completions", end_token='<|endoftext|>',num_responses=1, topk=0):
-    prompt = [p.replace('"', "").replace("'", "") for p in prompt]
-    parameters = {
-        "prompt": prompt,
-        "max_tokens": 1,
-        "temperature": 0.9,
-        "n": num_responses,
-        "stream": False,
-        "logprobs": topk,
-        "stop": end_token,
-    }
-    s = f"""curl {endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {apikey}" -d '{json.dumps(parameters)}'"""
-    output = subprocess.check_output(s, shell=True)
-    output = json.loads(output)
-    return output
