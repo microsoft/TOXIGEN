@@ -38,3 +38,14 @@ A boon of our method is that if you want to generate new text for a new group, y
 ```
 python make_prompts.py --input_demonstrations <path_to_demo_file.txt> --output-file <path_to_prompt.txt> --demonstrations_per_prompt 5 --num_prompt_to_generate 100
 ```
+
+#### Citation
+If our work inspired yours, please cite our paper:
+```
+@inproceedings{hartvigsen2022toxigen,
+  title={ToxiGen: Controlling Language Models to Generate Implied and Adversarial Toxicity},
+  author={Hartvigsen, Thomas and Gabriel, Saadia and Palangi, Hamid and Sap, Maarten and Ray, Dipankar and Kamar, Ece},
+  booktitle={Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics},
+  year={2022}
+}
+```
