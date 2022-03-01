@@ -8,7 +8,7 @@ This repository includes **two methods for generating new sentences with languag
 - **Demonstration-Based Prompting**, where we encourage a language model to imitate hand-written examples
 - **ALICE**, which tricks a predefined toxicity classifier into generating challenging, implicit sentences.
 
-**WARNING: This repository contains and discusses content that is offensive or upsetting. All materials are intended to support research that improves toxicity detection methods.**
+**WARNING: This repository contains and discusses content that is offensive or upsetting. All materials are intended to support research that improves toxicity detection methods. Included examples of toxicity do not represent how the authors or sponsors feel about any identity groups.**
 
 ## Download the data
 
