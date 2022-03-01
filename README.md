@@ -1,5 +1,4 @@
 # TOXIGEN: Controlling Language Models to Generate Implicit and Adversarial Toxicity
-
 This is the official repository for [ToxiGen: Controlling Language Models to Generate Implicit and Adversarial Toxicity](https://arxiv.org/abs/2030.12345). 
 ToxiGen is a massive dataset containing **implicitly** toxic and benign sentences mentioning minority groups. Classifiers trained on ToxiGen learn to detect notoriously-hard, subtle toxicity that includes no slurs or profanity.
 
@@ -8,6 +7,8 @@ The ToxiGen dataset is generated using large language models, and we also provid
 This repository includes **two methods for generating new sentences with language models**:
 - **Demonstration-Based Prompting**, where we encourage a language model to imitate hand-written examples
 - **ALICE**, which tricks a predefined toxicity classifier into generating challenging, implicit sentences.
+
+**WARNING: This repository contains and discusses content that is offensive or upsetting. All materials are intended to support research that improves toxicity detection methods.**
 
 ## Download the data
 
