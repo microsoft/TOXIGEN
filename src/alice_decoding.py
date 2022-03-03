@@ -118,9 +118,10 @@ def beam_search(prompt,
     outputs = {}
     while 'choices' not in outputs.keys():
            outputs = language_model(prompt, stop=end_token, num_responses=1, topk=num_beams)
-    outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
+           # Just need top log probs
+    #outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
     tokens = list(outputs.keys())
-    tokens = [(k,outputs[k]) for k in tokens]
+    tokens = [(k, outputs[k]) for k in tokens]
     for i in range(len(tokens)):
         beam_scores[i] = tokens[i][1]
         input_ids[i] += tokens[i][0]
