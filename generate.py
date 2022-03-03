@@ -43,10 +43,8 @@ def main():
     for prompt in prompts:
         for i in range(args.num_generations_per_prompt):
             response = language_model(prompt)
-            print(response)
             with open(args.output_file, "a") as f:
                 f.write(response + "\n")
-            assert 2 == 3
 
 if __name__ == "__main__":
     main()
