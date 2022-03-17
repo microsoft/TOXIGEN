@@ -38,11 +38,11 @@ In the [demonstrations](./demonstrations/) directory, you can find the demonstra
 python make_prompts.py --input_demonstrations <path_to_demo_file.txt> --output-file <path_to_prompt.txt> --demonstrations_per_prompt 5 --num_prompt_to_generate 100
 ```
 
-## Download and use our pretrained classifiers
+## Using checkpoints of pretrained classifiers on ToxiGen
 
-We release two classifiers along with this paper: A finetuned HateBERT model, and a finetuned RoBERTa model. Each can be loaded using Huggingface's transformers library.
+We have finetuned two toxicity detection classifiers on the ToxiGen data which has resulted in significant performance improvement as reported in the paper. The checkpoints for them can be loaded directly using the Huggingface's transformers library:
 
-### Load HateBERT
+### HateBERT_ToxiGen
 
 HateBERT finetuned on ToxiGen can be downloaded as follows in python:
 
@@ -51,19 +51,19 @@ from transformers import pipeline
 
 toxigen_hatebert = pipeline("text-classification", model="thartvigsen/hatebert_toxigen/")
 
-toxigen_hatebert(["put your string here"])
+toxigen_hatebert(["I love science."])
 ```
 
-### Load RoBERTa
+### RoBERTa_ToxiGen
 
 RoBERTa finetuned on ToxiGen can be downloaded as follows in python:
 
 ```
 from transformers import pipeline
 
-toxigen_roberta = pipeline("text-classification", model="thartvigsen/hatebert_roberta/")
+toxigen_roberta = pipeline("text-classification", model="thartvigsen/roberta_toxigen/")
 
-toxigen_roberta(["put your string here"])
+toxigen_roberta(["I love science."])
 ```
 
 #### Citation
