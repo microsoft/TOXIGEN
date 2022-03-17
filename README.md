@@ -49,7 +49,7 @@ HateBERT finetuned on ToxiGen can be downloaded as follows in python:
 ```
 from transformers import pipeline
 
-toxigen_hatebert = pipeline("text-classification", model="thartvigsen/hatebert_toxigen/")
+toxigen_hatebert = pipeline("text-classification", model="thartvigsen/hatebert_toxigen")
 
 toxigen_hatebert(["I love science."])
 ```
@@ -61,7 +61,7 @@ RoBERTa finetuned on ToxiGen can be downloaded as follows in python:
 ```
 from transformers import pipeline
 
-toxigen_roberta = pipeline("text-classification", model="thartvigsen/roberta_toxigen/")
+toxigen_roberta = pipeline("text-classification", model="thartvigsen/roberta_toxigen")
 
 toxigen_roberta(["I love science."])
 ```
