@@ -23,6 +23,7 @@ import subprocess
 import itertools
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import nltk
+import time
 from nltk.corpus import stopwords
 
 def omit_(token, score, list1,list2):
@@ -82,16 +83,19 @@ class BeamHypotheses(object):
 def beam_search(prompt,
                 language_model,
                 classifier,
+                mode, # can be "toxic" or "neutral"
+                device,
                 end_token='<|endoftext|>',
                 weights=[.5, .5],
                 keyword='latino',
-                use_class=True,
+                #use_class=True,
                 num_beams=10,
                 vocab_size=100,
-                max_length=5,
+                max_length=30,
                 temperature=.9,
                 length_penalty=1):
     """Generate sequences for each example with beam search."""
+    vocab_size = min(5, vocab_size) # comment this line out if you want your vocab size over 5---you need to request this from OpenAI.
     pad_token_id = '<|pad|>'
     eos_token_ids = [end_token]
     # generated hypotheses
@@ -117,9 +121,8 @@ def beam_search(prompt,
     input_ids = [prompt] * num_beams
     outputs = {}
     while 'choices' not in outputs.keys():
-           outputs = language_model(prompt, stop=end_token, num_responses=1, topk=num_beams)
-           # Just need top log probs
-    #outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
+        outputs = language_model(prompt, topk=num_beams)
+    outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
     tokens = list(outputs.keys())
     tokens = [(k, outputs[k]) for k in tokens]
     for i in range(len(tokens)):
@@ -129,30 +132,28 @@ def beam_search(prompt,
     while step < max_length:
         outputs = {}
         while 'choices' not in outputs.keys():
-              try:
-                  outputs = language_model(input_ids, end_token, num_responses=1, topk=vocab_size)
-                  #outputs = query_gpt3(input_ids, api_key, endpoint_url, end_token, num_responses=1,topk=vocab_size)
-              except:
-                  continue
+            try: 
+                outputs = language_model(input_ids, topk=vocab_size)
+            except:
+                continue
         scores = [outputs['choices'][i]['logprobs']['top_logprobs'] for i in range(num_beams)]
         full_names = [[list(x.keys()) for x in scores[i]] for i in range(num_beams)]
         scores = [[list(x.values()) for x in scores[i]] for i in range(num_beams)]
         scores_ = torch.Tensor([[[omit_(full_names[i][0][j], scores[i][0][j], stops, prompt) for j in range(len(scores[i][0]))]] for i in range(num_beams)])
         scores = scores_.view(num_beams * 1, vocab_size)
         full_names = list(itertools.chain.from_iterable(list(itertools.chain.from_iterable(full_names))))
-        # Add the log prob of the new beams to the log prob of the beginning of the sequence (sum of logs == log of the product)
         next_scores = scores + beam_scores[:, None].expand_as(scores)  # (batch_size * num_beams, vocab_size)
-        # re-organize to group the beam together (we are keeping top hypothesis accross beams)
         next_scores = next_scores.view(1, num_beams * vocab_size)  # (batch_size, num_beams * vocab_size)
         next_scores, next_tokens = torch.topk(next_scores, 2 * num_beams, dim=1, largest=True, sorted=True)
         next_tokens_names = [full_names[int(next_tokens[0][i])] for i in range(len(next_tokens[0]))]
         assert next_scores.size()[-1] == len(next_tokens_names) == 2 * num_beams
-        #if use_class == True:
-        # Let's assume use_class == True if they're using this file! There's easier ways to just use top-k
-        classifier_inputs = [tokenizer.encode(' '.join(input_ids[t // vocab_size ].split(' ')[start_index:]) + full_names[t]) for t in next_tokens[0]]
+        classifier_inputs = [classifier.tokenizer.encode(' '.join(input_ids[t // vocab_size ].split(' ')[start_index:]) + full_names[t]) for t in next_tokens[0]]
         pad_len = max([len(t) for t in classifier_inputs])
         classifier_inputs = torch.LongTensor([b + [0] * (pad_len - len(b)) for b in classifier_inputs])
-        logits = torch.nn.functional.log_softmax(classifier(classifier_inputs.to(device)).logits)[:,1].cpu()
+        if mode == "neutral":
+            logits = torch.nn.functional.log_softmax(classifier(classifier_inputs.to(device)).logits, 1)[:, 1].cpu() # 1 if neutral
+        else:
+            logits = torch.nn.functional.log_softmax(classifier(classifier_inputs.to(device)).logits, 1)[:, 0].cpu() # 0 if neutral
         next_scores = (next_scores * weights[0]) + (logits * weights[1])
 
         # next batch beam content

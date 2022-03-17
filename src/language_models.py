@@ -1,12 +1,12 @@
+import time
 import torch
 import subprocess
 import json
-from src.alice_decoding import beam_search
+from alice_decoding import beam_search
 from transformers import (
     AutoTokenizer,
     AutoModelWithLMHead,
     AutoModelForCausalLM,
-    #AutoModel,
 )
 
 class GPT3(object):
@@ -14,22 +14,27 @@ class GPT3(object):
         self.api_key = api_key
         self.endpoint_url = endpoint_url
 
-    def __call__(self, prompt, stop="<|endoftext|>", num_responses=10, topk=1):
-        prompt = prompt.replace("'", "").replace('"', "")
+    def __call__(self, prompt, topk=1, max_tokens=1):
+        if not isinstance(prompt, list):
+            prompt = [prompt]
+        prompt = [p.replace("'", "").replace('"', "") for p in prompt]
         parameters = {
             "prompt": prompt,
-            "max_tokens": 30,
+            "max_tokens": max_tokens,
             "temperature": 0.9,
-            "n": num_responses,
+            "n": 1,
             "stream": False,
             "logprobs": topk,
-            "stop": stop,
+            "stop": "<|endoftext|>",
         }
         s = f"""curl {self.endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {self.api_key}" -d '{json.dumps(parameters)}'"""
         output = subprocess.check_output(s, shell=True)
         output = json.loads(output)
-        outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
         return output
+
+    def from_prompt(self, prompt, topk=10, max_tokens=10):
+        output = self.__call__(prompt, topk, max_tokens)
+        return output["choices"][0]["text"]
 
 class GPT2(object):
     def __init__(self):
@@ -58,12 +63,14 @@ class GPT2(object):
         #return self.tokenizer.decode(sample_output)
 
 class ALICE(object):
-    def __init__(self, language_model, classifier):
+    def __init__(self, language_model, classifier, mode, device="cpu"):
         self.classifier = classifier
         self.language_model = language_model
+        self.device = device
+        self.mode = mode
 
-    def __call__(self, prompt):#, group):
-        return self.generate(prompt)#, group)
+    def __call__(self, prompt):
+        return self.generate(prompt)
 
-    def generate(self, prompt):#, group):
-        return beam_search(prompt, self.language_model, self.classifier)#, keyword=group)
+    def generate(self, prompt):
+        return beam_search(prompt, self.language_model, self.classifier, self.mode, self.device)

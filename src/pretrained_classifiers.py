@@ -17,12 +17,6 @@ class HateSpeechClassifier(torch.nn.Module):
 
     def __call__(self, input_ids, labels=None):
         outputs = self.model(input_ids)
-        logits = outputs.logits
-        if labels is not None:
-            loss = torch.nn.functional.cross_entropy(logits, labels)
-            outputs = (loss, logits)
-        else:
-            outputs = logits.detach()
         return outputs
 
 class HateBERT(HateSpeechClassifier):
@@ -34,6 +28,5 @@ class HateBERT(HateSpeechClassifier):
 class ToxDectRoBERTa(HateSpeechClassifier):
     def __init__(self):
         super(ToxDectRoBERTa, self).__init__()
-        #config = RobertaConfig.from_pretrained('Xuhui/ToxDect-roberta-large')
         self.tokenizer = AutoTokenizer.from_pretrained('Xuhui/ToxDect-roberta-large')
         self.model = AutoModelForSequenceClassification.from_pretrained('Xuhui/ToxDect-roberta-large').eval() #, config=config).eval()
