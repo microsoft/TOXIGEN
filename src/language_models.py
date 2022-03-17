@@ -2,7 +2,7 @@ import time
 import torch
 import subprocess
 import json
-from alice_decoding import beam_search
+from src.alice import beam_search
 from transformers import (
     AutoTokenizer,
     AutoModelWithLMHead,
@@ -25,7 +25,8 @@ class GPT3(object):
             "n": 1,
             "stream": False,
             "logprobs": topk,
-            "stop": "<|endoftext|>",
+            # "stop": "<|endoftext|>",
+            "stop": "\n",
         }
         s = f"""curl {self.endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {self.api_key}" -d '{json.dumps(parameters)}'"""
         output = subprocess.check_output(s, shell=True)

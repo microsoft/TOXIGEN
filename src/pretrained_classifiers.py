@@ -1,17 +1,10 @@
-import os
-import torch
 from transformers import (
-    BertForSequenceClassification,
-    BertTokenizerFast,
-    RobertaConfig,
-    RobertaForSequenceClassification,
-    RobertaTokenizer,
     AutoTokenizer,
     AutoModelForSequenceClassification,
 )
 import random
 
-class HateSpeechClassifier(torch.nn.Module):
+class HateSpeechClassifier():
     def __init__(self):
         super(HateSpeechClassifier, self).__init__()
 
@@ -29,4 +22,4 @@ class ToxDectRoBERTa(HateSpeechClassifier):
     def __init__(self):
         super(ToxDectRoBERTa, self).__init__()
         self.tokenizer = AutoTokenizer.from_pretrained('Xuhui/ToxDect-roberta-large')
-        self.model = AutoModelForSequenceClassification.from_pretrained('Xuhui/ToxDect-roberta-large').eval() #, config=config).eval()
+        self.model = AutoModelForSequenceClassification.from_pretrained('Xuhui/ToxDect-roberta-large').eval()
