@@ -12,7 +12,7 @@ This repository includes two methods for generating new sentences given a large 
 
 [Download the ToxiGen dataset](www.google.com). The full training dataset, including metadata about the prompts.
 
-## Generating data with ToxiGen demonstration-based prompts
+## Generate data with ToxiGen demonstration-based prompts
 
 To pass the collected prompts in the dataset into the pretrained language model (GPT-3) and generate new sentences, run this command:
 
@@ -22,7 +22,7 @@ python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_mode
 
 You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
 
-## Generating data using ALICE
+## Generate data using ALICE
 
 To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained toxicity classifier. We provide a few here and some guidance on adding new classifiers. To generate with ALICE, run this command:
 
@@ -30,12 +30,40 @@ To generate data using ALICE, it is necessary to choose a generator (GPT3 in our
 python generate.py --input_prompts <path_to_prompt_file.txt> --language_model GPT3 --ALICE True --classifier HateBERT --output-file <path_to_output_file.txt> --openai_api_key <your_api_key>
 ```
 
-## Writing your own demonstrations
+## Write your own demonstrations
 
 In the [demonstrations](./demonstrations/) directory, you can find the demonstrations we have used to generate the dataset, which will help you in writing your own. Notice that the demonstration files are one sentence per line, and each targets the same group within each file. Once you've written the demonstrations and want to turn them into prompts, you can run this command:
 
 ```
 python make_prompts.py --input_demonstrations <path_to_demo_file.txt> --output-file <path_to_prompt.txt> --demonstrations_per_prompt 5 --num_prompt_to_generate 100
+```
+
+## Download and use our pretrained classifiers
+
+We release two classifiers along with this paper: A finetuned HateBERT model, and a finetuned RoBERTa model. Each can be loaded using Huggingface's transformers library.
+
+### Load HateBERT
+
+HateBERT finetuned on ToxiGen can be downloaded as follows in python:
+
+```
+from transformers import pipeline
+
+toxigen_hatebert = pipeline("text-classification", model="thartvigsen/hatebert_toxigen/")
+
+toxigen_hatebert(["put your string here"])
+```
+
+### Load RoBERTa
+
+RoBERTa finetuned on ToxiGen can be downloaded as follows in python:
+
+```
+from transformers import pipeline
+
+toxigen_roberta = pipeline("text-classification", model="thartvigsen/hatebert_roberta/")
+
+toxigen_roberta(["put your string here"])
 ```
 
 #### Citation
