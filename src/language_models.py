@@ -1,13 +1,38 @@
 import time
 import torch
 import subprocess
+import requests
 import json
-from src.alice import beam_search
+from alice import beam_search
 from transformers import (
     AutoTokenizer,
     AutoModelWithLMHead,
     AutoModelForCausalLM,
 )
+
+#class GPT3(object):
+#    def __init__(self, endpoint_url, api_key):
+#        self.api_key = api_key
+#        self.endpoint_url = endpoint_url
+#
+#    def __call__(self, prompt, topk=1, max_tokens=1):
+#        if not isinstance(prompt, list):
+#            prompt = [prompt]
+#        prompt = [p.replace("'", "").replace('"', "") for p in prompt]
+#        parameters = {
+#            "prompt": prompt,
+#            "max_tokens": max_tokens,
+#            "temperature": 0.9,
+#            "n": 1,
+#            "stream": False,
+#            "logprobs": topk,
+#            "stop": ["<|endoftext|>", "\\n"]
+#        }
+#        s = f"""curl {self.endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {self.api_key}" -d '{json.dumps(parameters)}'"""
+#        output = subprocess.check_output(s, shell=True)
+#        output = json.loads(output)
+#        print(output)
+#        return output
 
 class GPT3(object):
     def __init__(self, endpoint_url, api_key):
@@ -18,19 +43,23 @@ class GPT3(object):
         if not isinstance(prompt, list):
             prompt = [prompt]
         prompt = [p.replace("'", "").replace('"', "") for p in prompt]
-        parameters = {
+        payload = {
             "prompt": prompt,
             "max_tokens": max_tokens,
             "temperature": 0.9,
             "n": 1,
             "stream": False,
             "logprobs": topk,
-            # "stop": "<|endoftext|>",
-            "stop": "\n",
+            "stop": ["<|endoftext|>", "\\n"]
         }
-        s = f"""curl {self.endpoint_url} -H "Content-Type: application/json" -H "Authorization: Bearer {self.api_key}" -d '{json.dumps(parameters)}'"""
-        output = subprocess.check_output(s, shell=True)
-        output = json.loads(output)
+        r = requests.post(self.endpoint_url,
+            headers={
+                "api-key": self.api_key,
+                "Content-Type": "application/json"
+            },
+            json = payload
+        )       
+        output = json.loads(r.content)
         return output
 
     def from_prompt(self, prompt, topk=10, max_tokens=10):

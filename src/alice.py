@@ -77,10 +77,9 @@ def beam_search(prompt,
                 classifier,
                 mode, # if 1, Toxic, if 0 Neutral
                 device,
-                # end_token='<|endoftext|>',
                 end_token="\n",
                 weights=[.5, .5],
-                num_beams=10,
+                num_beams=1,
                 vocab_size=100,
                 max_length=30,
                 length_penalty=1):

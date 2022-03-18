@@ -13,13 +13,13 @@ class HateSpeechClassifier():
         return outputs
 
 class HateBERT(HateSpeechClassifier):
-    def __init__(self, model_path, fname=None):
+    def __init__(self, model_path):
         """
         HateBERT files: https://huggingface.co/GroNLP/hateBERT
         """
         super(HateBERT, self).__init__()
-        self.tokenizer = AutoTokenizer.from_pretrained('GroNLP/hateBERT')
-        self.model = AutoModelForSequenceClassification.from_pretrained('GroNLP/hateBERT').eval()
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_path).eval()
 
 class ToxDectRoBERTa(HateSpeechClassifier):
     def __init__(self):
