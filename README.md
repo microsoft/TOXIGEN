@@ -8,11 +8,11 @@ This repository includes two methods for generating new sentences given a large 
 
 **WARNING: This repository contains and discusses content that is offensive or upsetting. All materials are intended to support research that improves toxicity detection methods. Included examples of toxicity do not represent how the authors or sponsors feel about any identity groups.**
 
-## Download the data
+## Downloading the data
 
 [Download the ToxiGen dataset](www.google.com). The full training dataset, including metadata about the prompts.
 
-## Generate data with ToxiGen demonstration-based prompts
+## Generating data with ToxiGen demonstration-based prompts
 
 To pass the collected prompts in the dataset into the pretrained language model (GPT-3) and generate new sentences, run this command:
 
@@ -22,7 +22,7 @@ python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_mode
 
 You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
 
-## Generate data using ALICE
+## Generating data using ALICE
 
 To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained toxicity classifier. We provide a few here and some guidance on adding new classifiers. To generate with ALICE, run this command:
 
@@ -30,7 +30,7 @@ To generate data using ALICE, it is necessary to choose a generator (GPT3 in our
 python generate.py --input_prompts <path_to_prompt_file.txt> --language_model GPT3 --ALICE True --classifier HateBERT --output-file <path_to_output_file.txt> --openai_api_key <your_api_key>
 ```
 
-## Write your own demonstrations
+## Writing your own demonstrations
 
 In the [demonstrations](./demonstrations/) directory, you can find the demonstrations we have used to generate the dataset, which will help you in writing your own. Notice that the demonstration files are one sentence per line, and each targets the same group within each file. Once you've written the demonstrations and want to turn them into prompts, you can run this command:
 
