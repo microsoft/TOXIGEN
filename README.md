@@ -1,5 +1,5 @@
 # ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection
-![Github_Picture2](https://user-images.githubusercontent.com/13631873/159396594-983c4ffc-722b-4937-8ebd-9dd17fe54b47.png)
+![Github_Picture](https://user-images.githubusercontent.com/13631873/159418812-98ccfe19-1a63-4bc9-9692-92f096f443b6.png)
 
 This is the research release for [ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection](http://arxiv.org/abs/2203.09509).
 It includes two components: a large-scale dataset containing implicitly toxic and benign sentences mentioning 13 minority groups, and a tool to stress test a given off-the-shelf toxicity classifier. The dataset is generated using a large language model (GPT3). It is intended to be used for training classifiers that learn to detect subtle toxicity that includes no slurs or profanity. The data, methods and trained checkpoint released with this work are intended to be used for research purposes only. 
