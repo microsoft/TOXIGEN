@@ -22,6 +22,19 @@ python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_mode
 
 You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
 
+## Installing toxigen
+
+Our code is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
+```
+pip install .
+```
+
+Now, within python you can run
+```
+import toxigen
+```
+and begin using our code, as described in the following sections
+
 ## Generating data using ALICE
 
 To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained toxicity classifier. We provide a few here and some guidance on adding new classifiers. To generate with ALICE, run this command:
