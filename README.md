@@ -91,3 +91,6 @@ Please use the following to cite this work:
   year={2022}
 }
 ```
+
+#### Note
+Please note that there is still a lot that this dataset is not capturing about toxic language. Our annotations might not capture the full complexity of these issues related to human experiences. There is need for multi-disciplinary work to better understand these aspects.
