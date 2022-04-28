@@ -92,5 +92,5 @@ Please use the following to cite this work:
 }
 ```
 
-#### Note
-Please note that there is still a lot that this dataset is not capturing about toxic language. Our annotations might not capture the full complexity of these issues related to human experiences. There is need for multi-disciplinary work to better understand these aspects.
+#### Responsible AI Considerations
+Please also note that there is still a lot that this dataset is not capturing about what constitutes problematic language. Our annotations might not capture the full complexity of these issues, given problematic language is context-dependent, dynamic, and can manifest in different forms and different severities. Problematic language is also fundamentally a human-centric problem and should be studied in conjunction with human experience. There is need for multi-disciplinary work to better understand these aspects. Also note that this dataset only captures implicit toxicity (more precisely hate speech) for 13 identified minority groups, and due to its large scale can naturally be noisy. Our goal in this project is to provide the community with means to improve toxicity detection on implicit toxic language for the identified minority groups and there exists limitations to this dataset and models trained on it which can potentially be the subject of future research, for example, including more target groups, a combination of them and so on that are not covered in our work.
