@@ -68,9 +68,9 @@ We have finetuned two toxicity detection classifiers on the ToxiGen data which h
 HateBERT finetuned on ToxiGen can be downloaded as follows in python:
 
 ```
-from transformers import pipeline
+from transformers import AutoModelForSequenceClassification
 
-toxigen_hatebert = pipeline("text-classification", model="thartvigsen/hatebert_toxigen")
+toxigen_hatebert = pipeline("text-classification", model="tomh/toxigen_hatebert")
 
 toxigen_hatebert(["I love science."])
 ```
@@ -82,7 +82,7 @@ RoBERTa finetuned on ToxiGen can be downloaded as follows in python:
 ```
 from transformers import pipeline
 
-toxigen_roberta = pipeline("text-classification", model="thartvigsen/roberta_toxigen")
+toxigen_roberta = pipeline("text-classification", model="tomh/toxigen_roberta")
 
 toxigen_roberta(["I love science."])
 ```
@@ -91,7 +91,7 @@ toxigen_roberta(["I love science."])
 Please use the following to cite this work:
 ```
 @inproceedings{hartvigsen2022toxigen,
-  title={ToxiGen: Controlling Language Models to Generate Implied and Adversarial Toxicity},
+  title={ToxiGen: A Large-Scale Machine-Generated Dataset for Implicit and Adversarial Hate Speech Detection},
   author={Hartvigsen, Thomas and Gabriel, Saadia and Palangi, Hamid and Sap, Maarten and Ray, Dipankar and Kamar, Ece},
   booktitle={Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics},
   year={2022}
