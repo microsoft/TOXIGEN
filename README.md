@@ -12,7 +12,7 @@ This repository includes two methods for generating new sentences given a large 
 
 ## Downloading the data
 
-[Download the ToxiGen dataset](www.google.com). The full training dataset, including metadata about the prompts.
+[Download the ToxiGen dataset](https://huggingface.co/datasets/skg/toxigen-data). The full training dataset, including metadata about the prompts.
 
 ## Generating data with ToxiGen demonstration-based prompts
 
