@@ -10,9 +10,15 @@ This repository includes two methods for generating new sentences given a large 
 
 **WARNING: This repository contains and discusses content that is offensive or upsetting. All materials are intended to support research that improves toxicity detection methods. Included examples of toxicity do not represent how the authors or sponsors feel about any identity groups.**
 
-## Downloading the data
+## Downloading ToxiGen
 
-[Download the ToxiGen dataset](www.google.com). The full training dataset, including metadata about the prompts.
+You can download [ToxiGen](https://huggingface.co/datasets/skg/toxigen-data) easily using HuggingFace straight from the webpage or through python:
+
+```
+from datasets import load_dataset
+TG = load_dataset("skg/toxigen-data")
+TG_train = TG["train"]
+```
 
 ## Generating data with ToxiGen demonstration-based prompts
 
@@ -26,7 +32,7 @@ You can choose from a list of [prompt files](./prompts/) that we use in the pape
 
 ## Installing toxigen
 
-Our code is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
+Our code for generating ToxiGen is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
 ```
 pip install .
 ```

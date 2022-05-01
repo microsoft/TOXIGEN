@@ -1,6 +1,6 @@
 import torch
-from src.language_models import GPT3, GPT2, ALICE
-from src.pretrained_classifiers import HateBERT, ToxDectRoBERTa
+from toxigen.language_models import GPT3, GPT2, ALICE
+from toxigen.pretrained_classifiers import HateBERT, ToxDectRoBERTa
 import argparse
 
 def main():

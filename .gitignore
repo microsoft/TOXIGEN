@@ -1,3 +1,6 @@
 __pycache__*
 *.swp
 private_*
+dist/
+build/
+tg_env/

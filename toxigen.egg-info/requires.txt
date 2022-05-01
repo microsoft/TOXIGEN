@@ -1,0 +1,4 @@
+torch
+numpy
+transformers==4.16.2
+pandas

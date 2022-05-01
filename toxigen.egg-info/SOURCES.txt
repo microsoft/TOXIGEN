@@ -1,0 +1,11 @@
+README.md
+setup.py
+toxigen/__init__.py
+toxigen/alice.py
+toxigen/language_models.py
+toxigen/pretrained_classifiers.py
+toxigen.egg-info/PKG-INFO
+toxigen.egg-info/SOURCES.txt
+toxigen.egg-info/dependency_links.txt
+toxigen.egg-info/requires.txt
+toxigen.egg-info/top_level.txt
