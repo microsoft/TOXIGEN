@@ -1,5 +1,5 @@
 # ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection ![Github_Picture](https://user-images.githubusercontent.com/13631873/159418812-98ccfe19-1a63-4bc9-9692-92f096f443b6.png) This is the research release for [ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection](http://arxiv.org/abs/2203.09509).
-It includes two components: a large-scale dataset containing implicitly toxic and benign sentences mentioning 13 minority groups, and a tool to stress test a given off-the-shelf toxicity classifier. The dataset is generated using a large language model (GPT3). It is intended to be used for training classifiers that learn to detect subtle toxicity that includes no slurs or profanity. The data, methods and trained checkpoint released with this work are intended to be used for research purposes only. 
+This repository includes two components: a large-scale dataset containing implicitly toxic and benign sentences mentioning 13 minority groups, and a tool to stress test a given off-the-shelf toxicity classifier. The dataset is generated using a large language model (GPT3). It is intended to be used for training classifiers that learn to detect subtle hate speech that includes no slurs or profanity. The data, methods and trained checkpoint released with this work are intended to be used for research purposes only. 
 
 This repository includes two methods for generating new sentences given a large scale pretrained language model (e.g., GPT3) and an off the shelf classifier:
 - **Demonstration-Based Prompting**, where a language model is used to create more data given human provided prompts across different minority groups. 
@@ -17,19 +17,17 @@ TG = load_dataset("skg/toxigen-data")
 TG_train = TG["train"]
 ```
 
-## Generating data with ToxiGen demonstration-based prompts
+## Installing ToxiGen source code
 
-To pass the collected prompts in the dataset into the pretrained language model (GPT-3) and generate new sentences, run this command:
+First, set up a virtual environment:
 
 ```
-python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --openai_api_key <your_api_key>
+python3 -m venv tg_env
+source tg_env/bin/activate
+pip install -r requirements
 ```
 
-You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
-
-## Installing toxigen
-
-Our code for generating ToxiGen is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
+Next, our code for generating ToxiGen is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
 ```
 pip install .
 ```
@@ -38,11 +36,28 @@ Now, within python you can run
 ```
 import toxigen
 ```
-and begin using our code, as described in the following sections
+and begin using our code, as described in the following sections.
+
+For global use of toxigen, you can also install:
+```
+pip install -i https://test.pypi.org/simple/ toxigen
+```
+
+## Jupyter Notebook Example
+To get you started, we include a [Jupyter Notebook](./notebooks/generate_text.ipynb) showing off the main components of this repository.
+
+## Generating data with ToxiGen demonstration-based prompts
+To generate more data at scale, you can pass our prompts into the pretrained language model (GPT-3) and generate new sentences:
+
+```
+python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --openai_api_key <your_api_key>
+```
+
+You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
 
 ## Generating data using ALICE
 
-To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained toxicity classifier. We provide a few here and some guidance on adding new classifiers. To generate with ALICE, run this command:
+To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained hate speech classifier. We provide a few here and some guidance on adding new classifiers. To generate with ALICE, run this command:
 
 ```
 python generate.py --input_prompts <path_to_prompt_file.txt> --language_model GPT3 --ALICE True --classifier HateBERT --output-file <path_to_output_file.txt> --openai_api_key <your_api_key>
