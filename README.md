@@ -18,15 +18,7 @@ TG = load_dataset("skg/toxigen-data", streaming=True)
 
 ## Installing ToxiGen source code
 
-First, set up a virtual environment:
-
-```
-python3 -m venv tg_env
-source tg_env/bin/activate
-pip install -r requirements
-```
-
-Next, our code for generating ToxiGen is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
+Our code for generating ToxiGen is neatly bundled into a python package that can be installed using pip. From this directory, simply run:
 ```
 pip install .
 ```
