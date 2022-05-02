@@ -9,7 +9,7 @@ This repository includes two methods for generating new sentences given a large 
 
 ## Downloading ToxiGen
 
-You can download [ToxiGen](https://huggingface.co/datasets/skg/toxigen-data) using HuggingFace straight from the webpage or through python:
+You can download [ToxiGen](https://huggingface.co/datasets/skg/toxigen-data) using HuggingFace from the webpage or through python:
 
 ```
 from datasets import load_dataset
