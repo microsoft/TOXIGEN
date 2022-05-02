@@ -1,7 +1,4 @@
-# ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection
-![Github_Picture](https://user-images.githubusercontent.com/13631873/159418812-98ccfe19-1a63-4bc9-9692-92f096f443b6.png)
-
-This is the research release for [ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection](http://arxiv.org/abs/2203.09509).
+# ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection ![Github_Picture](https://user-images.githubusercontent.com/13631873/159418812-98ccfe19-1a63-4bc9-9692-92f096f443b6.png) This is the research release for [ToxiGen: A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection](http://arxiv.org/abs/2203.09509).
 It includes two components: a large-scale dataset containing implicitly toxic and benign sentences mentioning 13 minority groups, and a tool to stress test a given off-the-shelf toxicity classifier. The dataset is generated using a large language model (GPT3). It is intended to be used for training classifiers that learn to detect subtle toxicity that includes no slurs or profanity. The data, methods and trained checkpoint released with this work are intended to be used for research purposes only. 
 
 This repository includes two methods for generating new sentences given a large scale pretrained language model (e.g., GPT3) and an off the shelf classifier:
@@ -68,6 +65,16 @@ We have finetuned two toxicity detection classifiers on the ToxiGen data which h
 HateBERT finetuned on ToxiGen can be downloaded as follows in python:
 
 ```
+from transformers import pipeline
+
+toxigen_hatebert = pipeline("text-classification", model="tomh/toxigen_hatebert")
+
+toxigen_hatebert["I love science"]
+```
+
+or
+
+```
 from transformers import AutoModelForSequenceClassification
 
 toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxigen_hatebert")
@@ -78,19 +85,18 @@ toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxi
 RoBERTa finetuned on ToxiGen can be downloaded as follows in python:
 
 ```
-from transformers import AutoModelForSequenceClassification
-
-toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxigen_roberta")
-```
-
-or
-
-```
 from transformers import pipeline
 
 toxigen_roberta = pipeline("text-classification", model="tomh/toxigen_roberta")
 
 toxigen_roberta["I love science"]
+```
+or
+
+```
+from transformers import AutoModelForSequenceClassification
+
+toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxigen_roberta")
 ```
 
 #### Citation
