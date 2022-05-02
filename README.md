@@ -70,9 +70,7 @@ HateBERT finetuned on ToxiGen can be downloaded as follows in python:
 ```
 from transformers import AutoModelForSequenceClassification
 
-toxigen_hatebert = pipeline("text-classification", model="tomh/toxigen_hatebert")
-
-toxigen_hatebert(["I love science."])
+toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxigen_hatebert")
 ```
 
 ### RoBERTa_ToxiGen
@@ -80,11 +78,19 @@ toxigen_hatebert(["I love science."])
 RoBERTa finetuned on ToxiGen can be downloaded as follows in python:
 
 ```
+from transformers import AutoModelForSequenceClassification
+
+toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxigen_roberta")
+```
+
+or
+
+```
 from transformers import pipeline
 
 toxigen_roberta = pipeline("text-classification", model="tomh/toxigen_roberta")
 
-toxigen_roberta(["I love science."])
+toxigen_roberta["I love science"]
 ```
 
 #### Citation
