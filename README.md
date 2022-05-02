@@ -20,7 +20,7 @@ TG = load_dataset("skg/toxigen-data", streaming=True)
 
 ## Installing ToxiGen source code
 
-Our code for generating ToxiGen is neatly bundled into a python package that can be installed using pip. Simple run
+ToxiGen is bundled into a python package that can be installed using pip:
 ```
 pip install toxigen
 ```
