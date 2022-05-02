@@ -13,8 +13,7 @@ You can download [ToxiGen](https://huggingface.co/datasets/skg/toxigen-data) eas
 
 ```
 from datasets import load_dataset
-TG = load_dataset("skg/toxigen-data")
-TG_train = TG["train"]
+TG = load_dataset("skg/toxigen-data", streaming=True)
 ```
 
 ## Installing ToxiGen source code
