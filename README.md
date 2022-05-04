@@ -1,5 +1,7 @@
 # [ToxiGen](http://arxiv.org/abs/2203.09509): A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection ![Github_Picture](https://user-images.githubusercontent.com/13631873/159418812-98ccfe19-1a63-4bc9-9692-92f096f443b6.png)
-This repository includes all necessary components that we used to generate ToxiGen dataset which contains implicitly toxic and benign sentences mentioning 13 minority groups. With release of the source codes and prompt seeds for this work we hope to encourage and engage community to contribute to it by for example adding prompt seeds and generating data for minority groups that are not covered in our dataset to continuously iterate and improve it. This release also includes a tool referred to as ALICE to stress test a given off-the-shelf content moderation system and iteratively improve it.
+This repository includes all necessary components that we used to generate ToxiGen dataset which contains implicitly toxic and benign sentences mentioning 13 minority groups. It includes a tool referred to as ALICE to stress test a given off-the-shelf content moderation system and iteratively improve it across these minority groups.
+
+With release of the source codes and prompt seeds for this work we hope to encourage and engage community to contribute to it by for example adding prompt seeds and generating data for minority groups that are not covered in our dataset or even scenarios we have not covered to continuously iterate and improve it (e.g., by submitting PR to this repository). 
 
 The dataset is intended to be used for training classifiers that learn to detect subtle hate speech that includes no slurs or profanity. The data, methods and two trained hatespeech detection checkpoints released with this work are intended to be used for research purposes only. 
 
@@ -13,7 +15,7 @@ This repository includes two methods for generating new sentences given a large 
 
 Before you download ToxiGen, please fill out [this form](https://forms.office.com/r/r6VXX8f8vh).
 
-You can download [ToxiGen](https://huggingface.co/datasets/skg/toxigen-data) using HuggingFace from the webpage or through python:
+You can download ToxiGen using HuggingFace 🤗 from [this webpage](https://huggingface.co/datasets/skg/toxigen-data) or through python:
 
 ```
 from datasets import load_dataset
@@ -28,20 +30,20 @@ pip install toxigen
 ```
 
 ## Jupyter Notebook Example
-To get you started, we include a [Jupyter Notebook](./notebooks/generate_text.ipynb) showing off the main components of this repository.
+Please use this [Jupyter Notebook](./notebooks/generate_text.ipynb) to get started with the main components of this repository.
 
 ## Generating data with ToxiGen demonstration-based prompts
-To generate more data at scale, you can pass our prompts into the pretrained language model (GPT-3) and generate new sentences:
+To generate data by passing prompts into the pretrained language model (GPT-3) used in this work please use the following command:
 
 ```
 python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --openai_api_key <your_api_key>
 ```
 
-You can choose from a list of [prompt files](./prompts/) that we use in the paper or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
+You can choose from a list of [prompt files](./prompts/) that we have used in this work or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
 
 ## Generating data using ALICE
 
-To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained hate speech classifier. We provide a few here and some guidance on adding new classifiers. To generate with ALICE, run this command:
+To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained hate speech classifier. We provide examples here and the guidance about how to add new classifiers. To generate with ALICE, run this command:
 
 ```
 python generate.py --input_prompts <path_to_prompt_file.txt> --language_model GPT3 --ALICE True --classifier HateBERT --output-file <path_to_output_file.txt> --openai_api_key <your_api_key>
