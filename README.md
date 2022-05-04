@@ -19,8 +19,8 @@ You can download ToxiGen using HuggingFace 🤗 from [this webpage](https://hugg
 
 ```
 from datasets import load_dataset
-TG_data = load_dataset("skg/toxigen-data", name="train") # 250k training examples
-TG_annotations = load_dataset("skg/toxigen-data", name="annotated") # Human study
+TG_data = load_dataset("skg/toxigen-data", name="train", use_auth_token=True) # 250k training examples
+TG_annotations = load_dataset("skg/toxigen-data", name="annotated", use_auth_token=True) # Human study
 ```
 
 ## Installing ToxiGen source code
