@@ -33,6 +33,8 @@ pip install toxigen
 ## Jupyter Notebook Example
 Please use this [Jupyter Notebook](./notebooks/generate_text.ipynb) to get started with the main components of this repository.
 
+We also include a [Notebook](./notebooks/load_datasets.ipynb) showing how to download different parts of ToxiGen using HuggingFace.
+
 ## Generating data with ToxiGen demonstration-based prompts
 To generate data by passing prompts into the pretrained language model (GPT-3) used in this work please use the following command:
 
