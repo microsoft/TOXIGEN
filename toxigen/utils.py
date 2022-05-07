@@ -10,6 +10,6 @@ def label_annotations(annotated):
     # Annotations should be the annotated dataset
     label = ((annotated.toxicity_ai + annotated.toxicity_human) > 5.5).astype(int)
     labeled_annotations = pd.DataFrame()
-    labeled_annotations["text"] = [i[2:] for i in annotated.text.tolist()]
+    labeled_annotations["text"] = [i for i in annotated.text.tolist()]
     labeled_annotations["label"] = label
     return labeled_annotations

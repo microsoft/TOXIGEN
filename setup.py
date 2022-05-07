@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='toxigen',
-    version='0.1.0',    
+    version='1.1.0',    
     description='Code support for ToxiGen',
     url='https://github.com/microsoft/toxigen',
     author='Thomas Hartvigsen',

@@ -1,4 +1,5 @@
 __pycache__*
+./notebooks/.ipynb_checkpoints/
 *.swp
 private_*
 dist/
