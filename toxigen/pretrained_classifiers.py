@@ -2,10 +2,7 @@ from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
 )
-import random
 import torch
-import numpy as np
-
 class HateSpeechClassifier():
     def __init__(self):
         super(HateSpeechClassifier, self).__init__()
