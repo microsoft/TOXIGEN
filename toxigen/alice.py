@@ -121,7 +121,7 @@ def beam_search(prompt,
             try: 
                 outputs = language_model(input_ids, topk=vocab_size)
             except:
-                continue
+                print(f"GPT-3 not responding normally. Please verify authorization.\n\nResponse from GPT-3: {outputs}")
         scores = [outputs['choices'][i]['logprobs']['top_logprobs'] for i in range(num_beams)]
         full_names = [[list(x.keys()) for x in scores[i]] for i in range(num_beams)]
         scores = [[list(x.values()) for x in scores[i]] for i in range(num_beams)]
