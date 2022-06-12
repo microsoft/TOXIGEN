@@ -103,6 +103,9 @@ from transformers import AutoModelForSequenceClassification
 toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxigen_roberta")
 ```
 
+### Contributing
+We encourage contribution to the ToxiGen repository of prompts and demonstrations. If you find your new prompts that work for your cases, please add them.
+
 #### Citation
 Please use the following to cite this work:
 ```
