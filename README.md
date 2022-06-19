@@ -13,9 +13,9 @@ This repository includes two methods for generating new sentences given a large 
 
 ## Downloading ToxiGen
 
-Before you download ToxiGen, please fill out [this form](https://forms.office.com/r/r6VXX8f8vh).
-
 You can download ToxiGen using HuggingFace 🤗 from [this webpage](https://huggingface.co/datasets/skg/toxigen-data) or through python:
+
+**Optional**: To help us track how folks use ToxiGen, please fill out [this form](https://forms.office.com/r/r6VXX8f8vh).
 
 ```
 from datasets import load_dataset
