@@ -15,6 +15,8 @@ This repository includes two methods for generating new sentences given a large 
 
 You can download ToxiGen using HuggingFace 🤗 from [this webpage](https://huggingface.co/datasets/skg/toxigen-data) or through python:
 
+To run these commands you'll need to create a Hugging Face auth_token by following [these](https://huggingface.co/docs/hub/security-tokens) steps and replace the line `use_auth_token=True` by `use_auth_token={auth_token}`
+
 ```
 from datasets import load_dataset
 TG_data = load_dataset("skg/toxigen-data", name="train", use_auth_token=True) # 250k training examples
