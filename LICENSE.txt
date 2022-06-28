@@ -59,3 +59,7 @@ NO DATA PROVIDER SHALL HAVE ANY LIABILITY FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
 5.3. "Data Recipient" means any person who receives Data directly or indirectly from a Data Provider and agrees to the terms of this agreement.
 
 5.4. "Results" means any outcome obtained by computational analysis of Data, including for example machine learning models and models' insights.
+
+///
+
+Please note that "this dataset includes synthetic data" and the data is provided "AS-IS".
