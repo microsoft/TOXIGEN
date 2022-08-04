@@ -1,5 +1,5 @@
 import torch
-from toxigen.language_models import GPT3, GPT2, ALICE
+from toxigen.language_models import GPT3, ALICE
 from toxigen.pretrained_classifiers import HateBERT, ToxDectRoBERTa
 import argparse
 
@@ -12,6 +12,7 @@ def main():
     parser.add_argument("--endpoint_url", type=str)
     parser.add_argument("--api_key", type=str)
     parser.add_argument("--classifier", type=str)
+    parser.add_argument("--generation_mode", type=str) # Can either be "neutral" or "hate", and indicates what you want to generate
     parser.add_argument("--ALICE", default=False, type=bool)
 
     args = parser.parse_args()
@@ -37,7 +38,7 @@ def main():
             raise NotImplementedError
 
         # --- wrap language model and toxicity detector in ALICE ---
-        language_model = ALICE(language_model, classifier)
+        language_model = ALICE(language_model, classifier, args.generation_mode)
 
     # --- loop through prompts and generate responses ---
     for prompt in prompts:
