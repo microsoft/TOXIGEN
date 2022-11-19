@@ -22,7 +22,7 @@ class HateBERT(HateSpeechClassifier):
         HateBERT files: https://huggingface.co/GroNLP/hateBERT
         """
         super(HateBERT, self).__init__()
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.tokenizer = AutoTokenizer.from_pretrained('GroNLP/hateBERT')
         self.model = AutoModelForSequenceClassification.from_pretrained(model_path).eval()
 
 class ToxDectRoBERTa(HateSpeechClassifier):
