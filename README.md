@@ -81,7 +81,7 @@ from transformers import pipeline
 
 toxigen_hatebert = pipeline("text-classification", model="tomh/toxigen_hatebert")
 
-toxigen_hatebert["I love science"]
+toxigen_hatebert("I love science")
 ```
 
 or
@@ -101,7 +101,7 @@ from transformers import pipeline
 
 toxigen_roberta = pipeline("text-classification", model="tomh/toxigen_roberta")
 
-toxigen_roberta["I love science"]
+toxigen_roberta("I love science")
 ```
 or
 
