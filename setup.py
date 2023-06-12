@@ -12,7 +12,7 @@ setup(
     install_requires=['torch',                     
                       'numpy',
                       #'tokenizers==0.6.0',
-                      'transformers==4.16.2',
+                      'transformers==4.30.0',
                       'pandas',                     
                       ],
     classifiers=[
