@@ -107,9 +107,12 @@ def beam_search(prompt,
     input_ids = [prompt] * num_beams
     outputs = {}
     while 'choices' not in outputs.keys():
-        outputs = language_model(prompt, topk=num_beams)
-        print(f"GPT-3 response: {outputs}")
-    outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
+        try:
+            outputs = language_model(prompt, topk=num_beams)
+            print(f"GPT-3 response: {outputs}")
+            outputs = outputs['choices'][0]['logprobs']['top_logprobs'][0]
+        except:
+            continue
     tokens = list(outputs.keys())
     tokens = [(k, outputs[k]) for k in tokens]
     for i in range(len(tokens)):
