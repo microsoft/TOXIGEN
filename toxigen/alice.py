@@ -140,6 +140,12 @@ def beam_search(prompt,
         next_scores, next_tokens = torch.topk(next_scores, 2 * num_beams, dim=1, largest=True, sorted=True)
         next_tokens_names = [full_names[int(next_tokens[0][i])] for i in range(len(next_tokens[0]))]
         assert next_scores.size()[-1] == len(next_tokens_names) == 2 * num_beams
+        pred_texts = []
+        for t in next_tokens[0]:
+            pred_text = ' '.join(input_ids[torch.div(t, vocab_size, rounding_mode="trunc")].split(' ')[start_index:]) + full_names[t]
+            pred_texts.append(inputs_ids + pred_text) ### TODO: get the currently appended sentence
+        classifier_inputs = query_llm(pred_texts) ### TODO: query the llm for the answer and use these answers to put into classifier
+        
         classifier_inputs = [classifier.tokenizer.encode(' '.join(input_ids[torch.div(t, vocab_size, rounding_mode="trunc")].split(' ')[start_index:]) + full_names[t]) for t in next_tokens[0]]
         # torch.div(a, b, rounding_mode='trunc'
         pad_len = max([len(t) for t in classifier_inputs])
