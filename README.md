@@ -79,7 +79,7 @@ HateBERT finetuned on ToxiGen can be downloaded as follows in python:
 ```
 from transformers import pipeline
 
-toxigen_hatebert = pipeline("text-classification", model="tomh/toxigen_hatebert", tokenizer="bert-base-cased")
+toxigen_hatebert = pipeline("text-classification", model="tomh/toxigen_hatebert", tokenizer="bert-base-uncased")
 
 toxigen_hatebert("I love science")
 ```
