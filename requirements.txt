@@ -2,4 +2,4 @@ nltk==3.7
 requests==2.27.1
 numpy==1.22.0
 torch==1.10.2
-transformers==4.12.3
+transformers==4.30.0
