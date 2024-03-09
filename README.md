@@ -114,6 +114,9 @@ toxigen_hatebert = AutoModelForSequenceClassification.from_pretrained("tomh/toxi
 ### Contributing
 We encourage contribution to the ToxiGen repository of prompts and demonstrations. If you find your new prompts that work for your cases, please add them.
 
+### Community Contributions
+*March 9, 2024*: Demonstrations for Immigrants and Bisexuality were added from a Zurich hackathon.
+
 #### Citation
 Please use the following to cite this work:
 ```
