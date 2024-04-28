@@ -47,7 +47,7 @@ We also include a [Notebook](./notebooks/load_datasets.ipynb) showing how to dow
 To generate data by passing prompts into the pretrained language model (GPT-3) used in this work please use the following command:
 
 ```
-python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --openai_api_key <your_api_key>
+python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --output_file <path_to_output_file.txt> --num_generations_per_prompt 10 --api_key <your_api_key>
 ```
 
 You can choose from a list of [prompt files](./prompts/) that we have used in this work or write your own and point to the file (shown below). A prompt file is a text file with one line per prompt (a string).
@@ -57,7 +57,7 @@ You can choose from a list of [prompt files](./prompts/) that we have used in th
 To generate data using ALICE, it is necessary to choose a generator (GPT3 in our case) and a pre-trained hate speech classifier. We provide examples here and the guidance about how to add new classifiers. To generate with ALICE, run this command:
 
 ```
-python generate.py --input_prompts <path_to_prompt_file.txt> --language_model GPT3 --ALICE True --classifier HateBERT --output-file <path_to_output_file.txt> --openai_api_key <your_api_key>
+python generate.py --input_prompt_file <path_to_prompt_file.txt> --language_model GPT3 --ALICE True --classifier HateBERT --output_file <path_to_output_file.txt> --api_key <your_api_key>
 ```
 
 ## Writing your own demonstrations
