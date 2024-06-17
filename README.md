@@ -1,4 +1,9 @@
 # [ToxiGen](http://arxiv.org/abs/2203.09509): A Large-Scale Machine-Generated Dataset for Adversarial and Implicit Hate Speech Detection ![Github_Picture](https://user-images.githubusercontent.com/13631873/159418812-98ccfe19-1a63-4bc9-9692-92f096f443b6.png)
+
+## [June 17, 2024] Update: Releasing 27,450 human annotations.
+You can now download the raw human annotations via `load_dataset("toxigen/toxigen-data", "annotations")`. These data include 27,450 responses from all mechanical turk annotations. All WorkerIDs have been hashed to further anonymize the annotators.
+
+## Overview
 This repository includes all necessary components that we used to generate ToxiGen dataset which contains implicitly toxic and benign sentences mentioning 13 minority groups. It includes a tool referred to as ALICE to stress test a given off-the-shelf content moderation system and iteratively improve it across these minority groups.
 
 With release of the source codes and prompt seeds for this work we hope to encourage and engage community to contribute to it by for example adding prompt seeds and generating data for minority groups that are not covered in our dataset or even scenarios we have not covered to continuously iterate and improve it (e.g., by submitting PR to this repository). 
@@ -13,14 +18,15 @@ This repository includes two methods for generating new sentences given a large 
 
 ## Downloading ToxiGen
 
-You can download ToxiGen using HuggingFace 🤗 from [this webpage](https://huggingface.co/datasets/skg/toxigen-data) or through python:
+ToxiGen is available on [HuggingFace](https://huggingface.co/datasets/toxigen/toxigen-data).
 
-To run these commands you'll need to create a Hugging Face auth_token by following [these](https://huggingface.co/docs/hub/security-tokens) steps. As discussed below, you can manually use `use_auth_token={auth_token}` or register your token with your transformers installation via huggingface-cli.
+To download with python, you'll need to create a Hugging Face auth_token by following [these instructions](https://huggingface.co/docs/hub/security-tokens). As discussed below, you can manually use `use_auth_token={auth_token}` or register your token with your transformers installation via huggingface-cli.
 
 ```
 from datasets import load_dataset
-TG_data = load_dataset("skg/toxigen-data", name="train", use_auth_token=True) # 250k training examples
-TG_annotations = load_dataset("skg/toxigen-data", name="annotated", use_auth_token=True) # Human study
+train_data = load_dataset("toxigen/toxigen-data", name="train", use_auth_token=True) # 250k training examples
+annotated_data = load_dataset("toxigen/toxigen-data", name="annotated", use_auth_token=True) # Human study
+raw_annotations = load_dataset("toxigen/toxigen-data", name="annotations", use_auth_token=True) # Raw Human study
 ```
 
 **Optional, but helpful**: Please fill out [this form](https://forms.office.com/r/r6VXX8f8vh) so we can track how the community uses ToxiGen.
